@@ -36,9 +36,9 @@ def factor_friccion(reynolds):
 def U_c(hi,ho):
     return hi * ho / (hi + ho)
 
-diametro_interno_i = 6.065 * (25.4e-3)
-diametro_interno_o = 6.625 * (25.4e-3)
-diametro_anulo_i = 7.981 * (25.4e-3)
+diametro_interno_i = 7.981 * (25.4e-3)
+diametro_interno_o = 8.625 * (25.4e-3)
+diametro_anulo_i = 10.020 * (25.4e-3)
 
 flujo_masico_i = 100000 / 3600
 flujo_masico_a = 200000 / 3600
@@ -86,16 +86,16 @@ rd = 0.0025
 ud = 1 / (1 / uc + rd)
 a = q_i / (ud * dmlt)
 print(f"area diseño = {a:.2f}")
-print(f"longitud de diseño {(a / 0.0929)/1.734 * 0.3048:.2f}")
+print(f"longitud de diseño {(a / 0.0929)/2.258 * 0.3048:.2f}")
 
-dp_i = (4*factor_friccion(reynolds_i)*(math.pow(G_f(flujo_masico_i,area_circun(diametro_interno_i)),2)) * 702/(2 * densidad_etil * diametro_interno_i)) / 6894.75729
-print(f"dp= {dp_i:.2f}")
+dp_i = (4*factor_friccion(reynolds_i)*(math.pow(G_f(flujo_masico_i,area_circun(diametro_interno_i)),2)) * 648/(2 * densidad_etil * diametro_interno_i)) / 6894.75729
+print(f"dp= {dp_i:.2f} psia")
 
 dep = diametro_anulo_i - diametro_interno_o
 rep = reynolds2(G_f(flujo_masico_a, area_anulo(diametro_anulo_i, diametro_interno_o)), dep, miu_a)
-dp_a = (4*factor_friccion(rep)*(math.pow(G_f(flujo_masico_i,area_anulo(diametro_anulo_i,diametro_interno_o)),2)) * 702/(2 * densidad_agua * dep)) / 6894.75729
-print(f"dp anulo = {dp_a:.2f}")
-#df = (math.pow(flujo_masico_i/(area_circun(diametro_interno_i) * densidad_etil),2)/(2) * densidad_etil * 77) / 6894.75729
-#print(f"df= {df:.2f}")
+dp_a = (4*factor_friccion(rep)*(math.pow(G_f(flujo_masico_i,area_anulo(diametro_anulo_i,diametro_interno_o)),2)) * 648/(2 * densidad_agua * dep)) / 6894.75729
+print(f"dp anulo = {dp_a:.2f} psia")
+#df_a = (math.pow(flujo_masico_i/(area_circun(diametro_interno_i) * densidad_etil),2)/(2) * densidad_etil * 72) / 6894.75729
+#print(f"df= {df_a:.2f} psi")
 #dptotal = dp + df
 #print(1.174 + (1.734 - 1.174)/(6-4)*(5-4))
