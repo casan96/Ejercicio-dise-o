@@ -36,8 +36,8 @@ def factor_friccion(reynolds):
 def U_c(hi,ho):
     return hi * ho / (hi + ho)
 
-diametro_interno_i = 7.981 * (25.4e-3)
-diametro_interno_o = 8.625 * (25.4e-3)
+diametro_interno_i = 5.047 * (25.4e-3)
+diametro_interno_o = 5.563 * (25.4e-3)
 diametro_anulo_i = 10.020 * (25.4e-3)
 
 flujo_masico_i = 100000 / 3600
@@ -76,26 +76,27 @@ reynolds_a = reynolds2(G_f(flujo_masico_a,area_anulo(diametro_anulo_i,diametro_i
 print(f"Rei = {reynolds_i:.2f}\nReo = {reynolds_a:.2f}")
 
 hi = coef_pelicula(reynolds_i, pr_i, k_i, diametro_interno_i)
-ho = coef_pelicula(reynolds_a, pr_a, k_a, (math.pow(diametro_anulo_i,2) -math.pow(diametro_interno_o, 2)) / diametro_interno_o)
+ho = coef_pelicula(reynolds_a, pr_a, k_a,de)
 print(f"hi = {hi:.2f}\nho = {ho:.2f}")
 
 uc = U_c(hi,ho)
 print(f"Uc = {uc:.2f}")
 
-rd = 0.0025
+rd = 0.0002 + 0.0003
 ud = 1 / (1 / uc + rd)
 a = q_i / (ud * dmlt)
 print(f"area diseño = {a:.2f}")
-print(f"longitud de diseño {(a / 0.0929)/2.258 * 0.3048:.2f}")
+print(f"longitud de diseño {(a / 0.0929)/1.454 * 0.3048:.2f}")
 
-dp_i = (4*factor_friccion(reynolds_i)*(math.pow(G_f(flujo_masico_i,area_circun(diametro_interno_i)),2)) * 648/(2 * densidad_etil * diametro_interno_i)) / 6894.75729
+dp_i = (4*factor_friccion(reynolds_i)*(math.pow(G_f(flujo_masico_i,area_circun(diametro_interno_i)),2)) * 360/(2 * densidad_etil * diametro_interno_i)) / 6894.75729
 print(f"dp= {dp_i:.2f} psia")
 
 dep = diametro_anulo_i - diametro_interno_o
 rep = reynolds2(G_f(flujo_masico_a, area_anulo(diametro_anulo_i, diametro_interno_o)), dep, miu_a)
-dp_a = (4*factor_friccion(rep)*(math.pow(G_f(flujo_masico_i,area_anulo(diametro_anulo_i,diametro_interno_o)),2)) * 648/(2 * densidad_agua * dep)) / 6894.75729
+dp_a = (4*factor_friccion(rep)*(math.pow(G_f(flujo_masico_i,area_anulo(diametro_anulo_i,diametro_interno_o)),2)) * 360/(2 * densidad_agua * dep)) / 6894.75729
 print(f"dp anulo = {dp_a:.2f} psia")
-#df_a = (math.pow(flujo_masico_i/(area_circun(diametro_interno_i) * densidad_etil),2)/(2) * densidad_etil * 72) / 6894.75729
-#print(f"df= {df_a:.2f} psi")
-#dptotal = dp + df
+df_a = (math.pow(flujo_masico_a/(area_anulo(diametro_anulo_i,diametro_interno_o) * densidad_agua),2)/2 * densidad_agua * 40) / 6894.75729
+print(f"df= {df_a:.2f} psia")
+dptotal_a = dp_a + df_a
+print(f"dp total anulo {dptotal_a:.2f} psia")
 #print(1.174 + (1.734 - 1.174)/(6-4)*(5-4))
